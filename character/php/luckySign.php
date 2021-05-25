@@ -1,5 +1,7 @@
 <?php
 
+/* */
+
 
 function getLuckySign($input)
 {
@@ -62,7 +64,7 @@ function getSpeed($luckMod, $luckySign)
                $baseSpeed += $speedBonus; 
         }
 
-        return $baseSpeed . '\'';
+        return $baseSpeed;
 }
 
 function getCritMod($luckMod, $luckySign)
@@ -195,7 +197,7 @@ function getWillLuckBonus($luckMod, $luckySign)
 
 function getLanguages($intMod, $luckMod, $luckySign)
 {
-        $language = 'Common';
+        $language = 'Common, Thieves\' Cant';
         $bonusLanguages = 0;
 
         if($intMod > 0)

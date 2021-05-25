@@ -147,9 +147,9 @@
 
        $speed = 30 - $armourSpeedPen;
 
-       $reflexBase = savingThrowReflex($level);
-       $fortBase = savingThrowFort($level);
-       $willBase = savingThrowWill($level);
+       $baseArmourClass = 10 + $agilityMod;
+
+       $armourClass = $baseArmourClass + $totalAcDefense;
 
        $criticalDie = criticalDie($level);
 
@@ -157,10 +157,52 @@
 
        $actionDice = actionDice($level);
 
-       $attackBonus = attackBonus ($level);
+       $attackBonus = attackBonus($level);
 
+       $luckySign = array();
+       $luckySign = getBirthAugur();
+
+       $ref = savingThrowReflex($level);
+       $ref += $agilityMod;
+       $refLuckSign = getRefLuckBonus($luckMod, $luckySign[0]);
+       $ref += $refLuckSign;
+       
+       $fort = savingThrowReflex($level);
+       $fort += $staminaMod;
+       $fortLuckSign = getFortLuckBonus($luckMod, $luckySign[0]);
+       $fort += $fortLuckSign;
+       
+       $will = savingThrowReflex($level);
+       $will += $personalityMod;
+       $willLuckSign = getWillLuckBonus($luckMod, $luckySign[0]);
+       $will += $willLuckSign;
+
+       $speed = getSpeed($luckMod, $luckySign[0]);
+       $speed -= $speedPenality;
 
        $title = title($level, $alignment);
+
+       $initiative = getInit($agilityMod, $luckMod, $luckySign[0]);
+
+       $languages = getLanguages($intelligenceMod, $luckMod, $luckySign[0]);
+
+
+       $meleeHitLuckyBonus = meleeAttackLuckSign($luckMod, $luckySign[0]);
+
+       $meleeToHit = $attackBonus + $meleeHitLuckyBonus + $strengthMod;
+       
+       $meleeDamageLuckyBonus = meleeDamageLuckSign($luckMod, $luckySign[0]);
+
+       $meleeToDamage = $meleeDamageLuckyBonus + $strengthMod;
+
+       
+        $missileHitLuckyBonus = missileAttackLuckSign($luckMod, $luckySign[0]);
+
+        $missileToHit = $attackBonus + $missileHitLuckyBonus + $agilityMod;
+
+        $missileDamageLuckyBonus = missileDamageLuckSign($luckMod, $luckySign[0]);
+
+        $missileToDamage = $missileDamageLuckyBonus;
 
        
        $professionNum = getOccupationNumber(); 
@@ -193,39 +235,50 @@
 
        $sneakSilentlyArray = getSneakSilentlyArray ($alignment);
        $sneakSilently = $sneakSilentlyArray[$level];
+       $sneakSilently += $agilityMod;
 
        $hideInShadowArray = getHideInShadowsArray ($alignment);
        $hideInShadows = $hideInShadowArray[$level];
+       $hideInShadows += $agilityMod;
 
        $pickPocketArray = getHideInShadowsArray ($alignment);
        $pickPocket = $pickPocketArray[$level];
+       $pickPocket += $agilityMod;
 
        $climbArray = getClimbArray ($alignment);
        $climb = $climbArray[$level];
+       $climb += $agilityMod;
 
        $pickLockArray = getPickLockArray ($alignment);
        $pickLock = $pickLockArray[$level];
+       $pickLock += $agilityMod;
 
        $findTrapArray = getFindTrapArray ($alignment);
        $findTrap = $findTrapArray[$level];
+       $findTrap += $intelligenceMod;
 
        $disableTrapArray = getDisableTrapArray ($alignment);
        $disableTrap = $disableTrapArray[$level];
+       $disableTrap += $agilityMod;
 
        $forgeDocArray = getForgeDocArray ($alignment);
        $forgeDoc = $forgeDocArray[$level];
+       $forgeDoc += $agilityMod;
 
        $disguiseSelfArray = getDisguiseSelfArray ($alignment);
        $disguiseSelf = $disguiseSelfArray[$level];
+       $disguiseSelf += $personalityMod;
 
        $readLanguagesArray = getReadLanguagesArray ($alignment);
        $readLanguages = $readLanguagesArray[$level];
+       $readLanguages += $intelligenceMod;
 
        $handlePoisonArray = getHandlePoisonArray ($alignment);
        $handlePoison = $handlePoisonArray[$level];
 
        $castSpellScrollArray = getCastSpellScrollArray ($alignment);
        $castSpellScroll = $castSpellScrollArray[$level];
+       $modToCheckScroll = thiefSpellScrollMod ($intelligenceMod);
 
 
 
@@ -405,9 +458,26 @@
         </span>
 
 
-       <span id="reflex"></span>
-       <span id="fort"></span>
-       <span id="will"></span>
+       <span id="reflex">
+        <?php
+                $ref = getModSign($ref);
+                echo $ref;
+           ?>
+       </span>
+
+       <span id="fort">
+        <?php
+                $fort = getModSign($fort);
+                echo $fort;
+           ?>
+       </span>
+
+       <span id="will">
+        <?php
+                $will = getModSign($will);
+                echo $will;
+           ?>
+       </span>
 		  
        
        <span id="gender">
@@ -417,18 +487,24 @@
        </span>
        
        
-       <span id="dieRollMethod"></span>
-
        
        <span id="class">Thief</span>
        
-       <span id="armourClass"></span>
+       <span id="armourClass">
+           <?php
+           echo $armourClass . ' (' . $baseArmourClass . ')';
+           ?>
+           </span>
 
        <span id="baseAC"></span>
        
        <span id="hitPoints"></span>
 
-       <span id="languages"></span>
+       <span id="languages">
+           <?php
+           echo $languages;
+           ?>
+       </span>
        
        <span id="trainedWeapon">
            <?php
@@ -480,10 +556,18 @@
            ?>
         </span>
         
-        <span id="speed"></span>
+        <span id="speed">
+           <?php
+                echo $speed . '\'';
+           ?></span>
         
         
-        <span id="attackBonus"></span>
+        <span id="attackBonus">
+        <?php
+                $attackBonus = getModSign($attackBonus);
+                echo $attackBonus;
+           ?>
+           </span>
 
 
               
@@ -556,6 +640,10 @@
         </span>
 
         <span id="initiative">
+            <?php
+                $initiative = getModSign($initiative);
+                echo $initiative;
+            ?>
         </span>
         
         <span id="actionDice">
@@ -572,15 +660,41 @@
         </span>
 
         
-		<p id="birthAugur"><span id="luckySign"></span>: <span id="luckyRoll"></span> (<span id="LuckySignBonus"></span>)</p>
+		<p id="birthAugur">
+            <?php
+                echo $luckySign[1] . ': ' . $luckySign[2] . ' (' . $luckMod . ')';
+            ?>
+            </p>
 
 
         
-        <span id="melee"></span>
-        <span id="range"></span>
+        <span id="melee">
+            <?php
+                $meleeToHit = getModSign($meleeToHit);
+                echo $meleeToHit;
+            ?>
+            </span>
+
+        <span id="range">
+            <?php
+                $missileToHit = getModSign($missileToHit);
+                echo $missileToHit;
+            ?>
+            </span>
         
-        <span id="meleeDamage"></span>
-        <span id="rangeDamage"></span>
+        <span id="meleeDamage">
+            <?php
+                $meleeToDamage = getModSign($meleeToDamage);
+                echo $meleeToDamage;
+            ?>
+            </span>
+
+        <span id="rangeDamage">
+            <?php
+                $missileToDamage = getModSign($missileToDamage);
+                echo $missileToDamage;
+            ?>
+            </span>
 
        
        
@@ -645,68 +759,80 @@
 
        <span id="backstab">
             <?php
+            $backstab = getModSign($backstab);
            echo $backstab;
            ?></span>
 
 
        <span id="sneakSilently">
             <?php
+            $sneakSilently = getModSign($sneakSilently);
            echo $sneakSilently;
            ?></span>
 
        <span id="hideInShadows">
             <?php
+            $hideInShadows = getModSign($hideInShadows);
            echo $hideInShadows;
            ?></span>
 
        <span id="pickPocket">
             <?php
+            $pickPocket = getModSign($pickPocket);
            echo $pickPocket;
            ?></span>
 
        <span id="climb">
             <?php
+            $climb = getModSign($climb);
            echo $climb;
            ?></span>
 
        <span id="pickLock">
             <?php
+            $pickLock = getModSign($pickLock);
            echo $pickLock;
            ?></span>
 
        <span id="findTrap">
             <?php
+            $findTrap = getModSign($findTrap);
            echo $findTrap;
            ?></span>
 
        <span id="disableTrap">
             <?php
+            $disableTrap = getModSign($disableTrap);
            echo $disableTrap;
            ?></span>
 
        <span id="forgeDoc">
             <?php
+            $forgeDoc = getModSign($forgeDoc);
            echo $forgeDoc;
            ?></span>
 
        <span id="disguiseSelf">
             <?php
+            $disguiseSelf = getModSign($disguiseSelf);
            echo $disguiseSelf;
            ?></span>
 
        <span id="readLanguages">
             <?php
+            $readLanguages = getModSign($readLanguages);
            echo $readLanguages;
            ?></span>
 
        <span id="handlePoison">
             <?php
+            $handlePoison = getModSign($handlePoison);
            echo $handlePoison;
            ?></span>
 
        <span id="castSpellScroll">
             <?php
-           echo $castSpellScroll;
+           echo $castSpellScroll . $modToCheckScroll;
            ?></span>
 
        

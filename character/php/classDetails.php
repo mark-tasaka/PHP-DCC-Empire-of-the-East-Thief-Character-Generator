@@ -1,6 +1,6 @@
 <?php
 
-/*Thief*/
+/*Thief */
 
 function savingThrowReflex($level)
 {

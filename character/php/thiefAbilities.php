@@ -303,4 +303,21 @@ function getCastSpellScrollArray ($alignment)
 }
 
 
+function thiefSpellScrollMod ($mod)
+{
+    if($mod == 0)
+    {
+        return '';
+    }
+    else if($mod > 0)
+    {
+        return '+' . $mod;
+    }
+    else
+    {
+        return $mod;
+    }
+}
+
+
 ?>
