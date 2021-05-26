@@ -2,6 +2,37 @@
 
 /*Thief */
 
+function getHitPoints($level, $staminaMod)
+{
+    $baseHP = rand(1, 4);
+    $baseHP += $staminaMod;
+    
+    if($baseHP < 1)
+    {
+        $baseHP = 1;
+    }
+
+    $hitPoints = $baseHP;
+
+    for($i = 0; $i < $level; ++$i)
+    {
+        $levelHP = rand(3, 6);
+        $levelHP += $staminaMod;
+
+        if($levelHP < 2)
+        {
+            $levelHP = 2;
+        }
+
+        $hitPoints += $levelHP ;
+
+    }
+
+    return $hitPoints;
+
+}
+
+
 function savingThrowReflex($level)
 {
     $reflex = 0;

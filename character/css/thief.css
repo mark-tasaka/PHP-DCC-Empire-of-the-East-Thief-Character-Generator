@@ -160,6 +160,16 @@ body{
     width: 220px;
 }
 
+
+#wealth{
+    position:absolute;
+    top: 940px;
+    left: 690px;
+    font-size: 0.6em;
+    width: 220px;
+}
+
+
 #abilityScoreGeneration{
     position:absolute;
     top: 1110px;

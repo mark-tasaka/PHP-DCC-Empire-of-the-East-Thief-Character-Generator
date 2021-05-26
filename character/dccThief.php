@@ -36,6 +36,7 @@
     include 'php/diceRoll.php';
     include 'php/luckySign.php';
     include 'php/zeroLvOccupation.php';
+    include 'php/wealth.php';
     
 
         if(isset($_POST["theCharacterName"]))
@@ -81,7 +82,16 @@
         {
             $abilityScoreGen = $_POST["theAbilityScore"];
         
-        } 
+        }
+        
+        
+        if(isset($_POST["theWealth"]))
+        {
+            $wealthOption = $_POST["theWealth"];
+        
+        }  
+
+        $wealth = getWealth($wealthOption);
 
         
         $abilityScoreArray = array();
@@ -185,6 +195,17 @@
        $initiative = getInit($agilityMod, $luckMod, $luckySign[0]);
 
        $languages = getLanguages($intelligenceMod, $luckMod, $luckySign[0]);
+
+       //Hit Points
+       $hitPoints = getHitPoints($level, $staminaMod);
+
+       $hitPointLuckySign = getHitPointLuck($luckMod, $luckySign[0]);
+
+       $levelMultiplier = $level + 1;
+
+       $bonusHitPoints = ($hitPointLuckySign * $levelMultiplier);
+       
+       $hitPoints += $bonusHitPoints;
 
 
        $meleeHitLuckyBonus = meleeAttackLuckSign($luckMod, $luckySign[0]);
@@ -498,7 +519,11 @@
 
        <span id="baseAC"></span>
        
-       <span id="hitPoints"></span>
+       <span id="hitPoints">
+           <?php
+           echo $hitPoints;
+           ?>
+           </span>
 
        <span id="languages">
            <?php
@@ -515,7 +540,13 @@
                echo $td;
            }
            ?></span>
-       <span id="tradeGoods"></span>
+
+
+       <span id="wealth">
+       <?php
+           echo $wealth;
+           ?>
+       </span>
 
        
        <span id="level">
