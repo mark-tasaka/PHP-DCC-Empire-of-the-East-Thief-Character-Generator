@@ -4,6 +4,12 @@ The Dungeon Crawl Classics (DCC) Empire of the East Thief Character Generator ge
 -----------------------------------
 
 
+
+Update 1.02: 2021-05-25
+
+Updates to dccThief.php, thief.css and classDetails.php. New file, wealth.php, added.
+
+
 Update 1.01: 2021-05-24
 
 Updates to dccThief.php, classDetails.php, luckySign.php and thiefAbilities.php.
