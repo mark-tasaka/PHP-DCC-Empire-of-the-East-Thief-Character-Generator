@@ -177,12 +177,12 @@
        $refLuckSign = getRefLuckBonus($luckMod, $luckySign[0]);
        $ref += $refLuckSign;
        
-       $fort = savingThrowReflex($level);
+       $fort = savingThrowFort($level);
        $fort += $staminaMod;
        $fortLuckSign = getFortLuckBonus($luckMod, $luckySign[0]);
        $fort += $fortLuckSign;
        
-       $will = savingThrowReflex($level);
+       $will = savingThrowWill($level);
        $will += $personalityMod;
        $willLuckSign = getWillLuckBonus($luckMod, $luckySign[0]);
        $will += $willLuckSign;

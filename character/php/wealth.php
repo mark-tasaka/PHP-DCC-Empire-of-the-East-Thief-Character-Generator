@@ -2,16 +2,17 @@
 
 function getWealth($input)
 {
-    $weath = '';
+    $wealth = '';
     $silver = 0;
     $gold = 0;
     $electrum = 0;
     $platnum = 0;
 
+    /*
     if($input == 1)
     {
         return $wealth;
-    }
+    }*/
     
     if($input == 2)
     {
