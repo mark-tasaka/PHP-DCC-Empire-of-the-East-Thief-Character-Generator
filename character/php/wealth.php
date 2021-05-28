@@ -3,19 +3,21 @@
 function getWealth($input)
 {
     $wealth = '';
+    $copper = 0;
     $silver = 0;
     $gold = 0;
     $electrum = 0;
     $platnum = 0;
 
-    /*
-    if($input == 1)
-    {
-        return $wealth;
-    }*/
     
     if($input == 2)
     {
+        for($k = 0; $k < 3; ++$k)
+        {
+            $copperCoin = rand(1, 12);
+            $copper += $copperCoin;
+        }
+        
         for($i = 0; $i < 3; ++$i)
         {
             $silverCoin = rand(1, 12);
@@ -28,7 +30,7 @@ function getWealth($input)
             $gold += $goldCoin;
         }
 
-        $wealth = $gold . ' gold & ' . $silver . ' silver pieces';
+        $wealth = $gold . ' gold, ' . $silver . ' silver & ' . $copper  . ' copper pieces';
     }
     
     if($input == 3)

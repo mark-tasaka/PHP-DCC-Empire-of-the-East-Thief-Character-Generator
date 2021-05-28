@@ -513,11 +513,16 @@
        
        <span id="armourClass">
            <?php
-           echo $armourClass . ' (' . $baseArmourClass . ')';
+           echo $armourClass;
            ?>
            </span>
 
-       <span id="baseAC"></span>
+       
+           <span id="armourClassBase">
+           <?php
+           echo '(' . $baseArmourClass . ')';
+           ?>
+           </span>
        
        <span id="hitPoints">
            <?php
