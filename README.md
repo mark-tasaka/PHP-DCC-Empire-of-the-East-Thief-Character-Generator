@@ -1,9 +1,18 @@
 # PHP-DCC-Empire-of-the-East-Thief-Character-Generator
 The Dungeon Crawl Classics (DCC) Empire of the East Thief Character Generator generates a random DCC character using the PHP programming language. The character generator uses the player’s (user’s) input via Post Methods as options used to customize the randomly generated character.
 
+
+
+Live version of the Zero Level Character Generator: https://www.oldschooladventures.org/east/more/classes/thief/
+
 -----------------------------------
 
 
+
+
+Update 1.04: 2021-05-27
+
+A completed version of the Thief Character Generator has been added.
 
 
 Update 1.03: 2021-05-27
